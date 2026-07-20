@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engram 忆枢 — a mind, not a database</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- layered stage: aurora → graph → UI glass -->
+<canvas id="bgCanvas"></canvas>
+<canvas id="canvas"></canvas>
+
+<!-- ======================= HERO (first 10 seconds) ======================= -->
+<div id="hero">
+  <div class="heroInner">
+    <div class="heroBrand">ENGRAM <span class="cn">忆枢</span></div>
+    <div class="heroTag">A mind, not a database.</div>
+    <div class="heroTagCn">让智能体真正拥有记忆 — 会相信、会修正、会遗忘、会成长</div>
+    <div class="heroPoints">
+      <span>● beliefs that <b>revise</b> when the world contradicts them</span>
+      <span>● sleep that turns failures into <b>lessons</b></span>
+      <span>● recall under a hard <b>token budget</b> — never full history</span>
+    </div>
+    <div class="heroCtas">
+      <button id="heroDemo" class="primary">▶ Watch it think · 90 s</button>
+      <button id="heroLive" class="ghost">Start live session</button>
+    </div>
+    <div class="heroFoot">powered by Qwen · built for Alibaba Cloud · open source (MIT)</div>
+  </div>
+</div>
+
+<!-- ============================ TOP BAR ================================= -->
+<header id="topBar">
+  <div class="brand">ENGRAM <span class="cn">忆枢</span></div>
+  <div id="kpis">
+    <div class="kpi"><div class="kv" id="kFacts">0</div><div class="kl">beliefs<span class="cn">信念</span></div></div>
+    <div class="kpi"><div class="kv" id="kLessons">0</div><div class="kl">lessons<span class="cn">经验</span></div></div>
+    <div class="kpi"><div class="kv" id="kEpisodes">0</div><div class="kl">memories<span class="cn">记忆</span></div></div>
+    <div class="kpi save"><div class="kv" id="kSave">–</div><div class="kl">tokens saved<span class="cn">省耗</span></div></div>
+  </div>
+  <div class="right">
+    <span id="modePill" class="pill live">LIVE</span>
+    <span class="pill soft" id="providerPill">qwen</span>
+  </div>
+</header>
+
+<!-- ============================ CHAT GLASS ============================== -->
+<aside id="chatPane">
+  <div class="agents">
+    <button class="agent active" data-agent="A"><i style="background:#22d3ee"></i>Planner <span class="cn">规划</span></button>
+    <button class="agent" data-agent="B"><i style="background:#fbbf24"></i>Executor <span class="cn">执行</span></button>
+    <button id="newSessionBtn" title="End session — context dies, memory survives">⏻ new session</button>
+  </div>
+  <div id="messages"></div>
+  <div id="gauge">
+    <div class="gRow">
+      <span class="gTitle">context this turn <span class="cn">上下文</span></span>
+      <span id="gNums">–</span>
+    </div>
+    <div class="gTrack">
+      <div id="gCtx" class="gSeg ctx" title="what the model actually saw"></div>
+      <div id="gGhost" class="gSeg ghost" title="what full history would cost"></div>
+    </div>
+  </div>
+  <div class="inputRow">
+    <input id="chatInput" placeholder="Say something worth remembering…" autocomplete="off">
+    <button id="sendBtn">↑</button>
+  </div>
+  <div class="tools">
+    <button id="sleepBtn" title="Consolidate: episodes → beliefs + lessons">☾ sleep</button>
+    <button id="forgetBtn" title="Hard-delete with preview">⌫ forget</button>
+    <button id="benchBtn" title="vs full-history vs naive RAG">▤ benchmark</button>
+    <button id="demoBtn" title="Replay of recorded real session">▶ demo</button>
+    <button id="resetBtn" title="Wipe all memory">reset</button>
+  </div>
+</aside>
+
+<!-- moment captions (cinematic lower third) -->
+<div id="moment" class="hidden">
+  <div class="mKicker" id="mKicker">BELIEF REVISED · 信念修正</div>
+  <div class="mBody" id="mBody"></div>
+</div>
+
+<!-- narrator: plain-language explanation of what the engine is doing -->
+<div id="narrator" class="hidden">
+  <span id="narIcon">◈</span><span id="narText"></span>
+</div>
+
+<!-- act chapter interstitial -->
+<div id="chapter" class="hidden">
+  <div class="chInner">
+    <div class="chAct" id="chAct">ACT 1</div>
+    <div class="chTitle" id="chTitle">Learning <span class="cn" id="chCn">学习</span></div>
+    <div class="chSub" id="chSub"></div>
+  </div>
+</div>
+
+<!-- demo replay progress -->
+<div id="demoProgress" class="hidden"><div id="dpFill"></div></div>
+
+<!-- lesson dock -->
+<div id="lessonDock"></div>
+
+<!-- episodic stream + timeline -->
+<footer id="bottomBar">
+  <div id="streamLabel">EPISODIC STREAM <span class="cn">情景记忆流</span></div>
+  <div id="timelineWrap">
+    <input type="range" id="timeline" min="0" max="1000" value="1000">
+    <button id="liveBtn">⦿ live</button>
+  </div>
+</footer>
+
+<!-- inspector -->
+<div id="inspector" class="glass hidden">
+  <button class="close" id="inspClose">×</button>
+  <div id="inspBody"></div>
+</div>
+
+<!-- modal overlay (sleep report / benchmark / forget) -->
+<div id="overlay" class="hidden"><div id="overlayCard" class="glass"></div></div>
+
+<div id="toasts"></div>
+<script src="app.js"></script>
+</body>
+</html>

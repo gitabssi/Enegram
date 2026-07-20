@@ -1,0 +1,6 @@
+.env
+data/
+recordings/
+__pycache__/
+*.pyc
+.DS_Store

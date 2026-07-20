@@ -1,0 +1,33 @@
+{
+  "name": "engram-eldercare-v3",
+  "description": "3 simulated sessions: Yue cares for Grandpa Chen (78, Hangzhou). Planted facts, a scheduling failure→correction, a safety-critical dosage change (contradiction), and the doctor's temporal question.",
+  "sessions": [
+    [
+      "Hi, I'm Yue. I look after my grandfather Chen — he's 78 and lives with us in Hangzhou.",
+      "Grandpa takes Amlodipine 10mg every morning for his blood pressure.",
+      "Critical: he is severely allergic to penicillin.",
+      "He walks in the Xixi wetlands every morning from 6 to 7:30.",
+      "Can you schedule his health checkup call for 7am tomorrow?",
+      "No! He's on his morning walk at 7am. Never schedule anything for grandpa before 8am — remember that permanently.",
+      "Also, keep answers short — bullet points."
+    ],
+    [
+      "Update: the cardiologist changed grandpa's prescription yesterday — Amlodipine is now 5mg, not 10mg.",
+      "We also switched him from coffee to Longjing tea in the mornings.",
+      "His next blood test is in two weeks."
+    ],
+    [
+      "What dose of Amlodipine should grandpa take now?",
+      "What dose was he on last month, when the dizziness started?",
+      "Schedule his cardiologist follow-up call — what time works?",
+      "Remind me what grandpa is allergic to."
+    ]
+  ],
+  "questions": [
+    {"type": "fact", "q": "What is my grandfather allergic to?", "expect": "penicillin"},
+    {"type": "fact", "q": "How old is grandpa Chen and where does he live?", "expect": "78, Hangzhou"},
+    {"type": "contradiction", "q": "What dose of Amlodipine does grandpa take now?", "expect": "5mg (not 10mg)"},
+    {"type": "temporal", "q": "What dose of Amlodipine was grandpa taking last month?", "expect": "10mg"},
+    {"type": "lesson", "q": "Schedule a checkup call for grandpa — what time do you suggest?", "expect": "After 8am (never before 8am — his morning walk is 6 to 7:30)"}
+  ]
+}
